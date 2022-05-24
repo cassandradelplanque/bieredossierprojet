@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+ {{ include('/header.html.twig') }}
+<style>
+    .cards { 
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 30px;
+    }
+    .bouton{ background: #c07f5b; height: 100px; text-align: center;  display: table;
+    }
+    .totale{
+        display: grid;
+        grid-template-columns: 1fr 5fr ;
+        grid-template-rows: 1;
+        grid-template-areas: 
+    "nav centre";
+    }
+    .formulaire{
+        grid-area: nav;
+      
+        
+ 
+    }
+    
+    .centre{
+        grid-area: centre;
+        
+        
+
+    }
+    p{display: table-cell;
+        vertical-align: middle;}
+    .indexpage{
+        text-align: center;
+    }
+    body{
+       
+    }
+</style>
+<body>
+<div class="totale">
+<div class="formulaire">
+<h1>Rechercher:</h1>
+<form method="post">
+    <br>
+    Nom: <input type="text" id="name" name="name" >
+    <br>
+    Malt: <input type="text" id="malt" name="malt" >
+    <br>
+    Hops: <input type="text" id="hops" name="hops" >
+    <br>
+    Yeast: <input type="text" id="yeast" name="yeast" >
+    
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <br>
+    Note: <select name="valeurnote">
+        <option value=0 selected> </option>
+        <option value=1>Inconnue</option>
+        <option value=2>à tester</option>
+        <option value=3>Berk</option>
+        <option value=4>Ok</option>
+         <option value=5>J’aime</option>
+        <option value=6>J’adore</option>
+    </select>
+     {% endif %}
+    <br>
+    <input type="submit" name="submit"  />
+</form>
+</div>
+<div class="centre">
+<div class="cards">
+    {% for element in recup %}
+        
+        <a class="bouton" href="{{ path('home_fiche', {'beer': element.id })}}">
+        <p>{{element.name}}</p>
+       
+        </a>
+       
+         
+    {% endfor %}
+
+</div>
+<div class="indexpage">
+    {% if page !=1 %}
+    <a  href="{{ path('app_home', {'page': page, 'sens': 0 , 'chaine1' : chaine1, 'chaine2' : chaine2})}}">Page précédente</a>
+     {% endif %}
+    {{page}}
+    {% if test ==1 %}
+    <a  href="{{ path('app_home', {'page': page, 'sens': 1, 'chaine1' : chaine1, 'chaine2' : chaine2 })}}">Page suivante </a>
+     {% endif %}
+</div> 
+</div>
+</div>  
+</body>
+
+{% endblock %}

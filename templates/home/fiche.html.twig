@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiche{% endblock %}
+
+{% block body %}
+{{ include('/header.html.twig') }}
+<style>
+    
+</style>
+
+<div class="tab">
+    <table class="table table-striped">
+   
+  
+
+      <tr>
+        <th>Nom</th>
+          <td>
+          
+    {{recup[0]['name']}}
+    </td>
+      </tr>
+      <tr>
+        <th>Ingrédients</th>
+     <td>
+    <table class="table table-striped">
+    <tr clospan="2">
+    <th >
+    Malt
+    <th>
+    </tr>
+    
+      {% for key in recup[0]['ingredients']['malt']|keys %}
+      <tr>
+        <td>{{recup[0]['ingredients']['malt'][key]['name']}}</td>
+        <td>{{recup[0]['ingredients']['malt'][key]['amount']['value']}}
+        {{recup[0]['ingredients']['malt'][key]['amount']['unit']}}</td>
+        </tr>
+      {% endfor %}
+    <tr clospan="2">
+    <th >
+    Hops
+     <th>
+    </tr>
+        {% for key in recup[0]['ingredients']['hops']|keys %}
+         <tr>
+        <td>{{recup[0]['ingredients']['hops'][key]['name']}}</td>
+        <td>{{recup[0]['ingredients']['hops'][key]['amount']['value']}}
+        {{recup[0]['ingredients']['hops'][key]['amount']['unit']}}
+        ({{recup[0]['ingredients']['hops'][key]['add']}} /
+        {{recup[0]['ingredients']['hops'][key]['attribute']}})</td>
+        </tr>
+      {% endfor %}
+   
+     <tr clospan="2">
+    <th >
+    Yeast:
+      <th>
+    </tr>
+     <tr>
+     <td>
+    {{recup[0]['ingredients']['yeast']}}
+    </td>
+    </tr>
+    </table>
+    
+    </td>
+    </tr>
+
+    <tr>
+         <th>Degrès d'alcool</th>
+    
+    <td>
+    {{recup[0]['abv']}}
+    </td>
+    </tr>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+   
+
+    <tr>
+         <th>Note</th>
+    
+    <td>
+    {{note}}
+    {% if test == -1 %}
+    <a  href="{{ path('app_note_new', {'beer_id': recup[0]['id']})}}">Ajouter note </a>
+    {% else %}
+    <a  href="{{ path('app_note_edit', {'id': test, 'beer_id': recup[0]['id'] })}}">Modifier note </a>
+     {% endif %}
+    </td>
+    </tr>
+    {% endif %}
+
+   </table>
+      
+
+   
+</div>
+{% endblock %}
